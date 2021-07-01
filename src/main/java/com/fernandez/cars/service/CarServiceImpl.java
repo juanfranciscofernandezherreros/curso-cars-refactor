@@ -19,13 +19,6 @@ public class CarServiceImpl implements CarService {
     private final  ModelMapper modelMapper;
 
     @Override
-    public CarDTO createOrUpdateCar(CarDTO carDTO) {
-        log.info("CarServiceImpl[createOrUpdateCar]");
-        Car carCreated = carRepository.save(modelMapper.map(carDTO,Car.class));
-        return modelMapper.map(carCreated,CarDTO.class);
-    }
-
-    @Override
     public List<CarDTO> findAllCars() {
         log.info("CarServiceImpl[findAllCars]");
         return carRepository.findAll()
@@ -40,6 +33,13 @@ public class CarServiceImpl implements CarService {
         Car carFounded = carRepository.getById(carId);
         CarDTO carDTO = modelMapper.map(carFounded,CarDTO.class);
         return carDTO;
+    }
+
+    @Override
+    public CarDTO createOrUpdateCar(CarDTO carDTO) {
+        log.info("CarServiceImpl[createOrUpdateCar]");
+        Car carCreated = carRepository.save(modelMapper.map(carDTO,Car.class));
+        return modelMapper.map(carCreated,CarDTO.class);
     }
 
     @Override
