@@ -1,7 +1,7 @@
 package com.fernandez.cars.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fernandez.cars.dto.CarDTO;
-import com.fernandez.cars.model.Car;
 import com.fernandez.cars.service.CarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,17 +17,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-
 import java.util.Locale;
-
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static sun.plugin2.util.PojoUtil.toJson;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -41,6 +35,9 @@ public class CarControllerTest {
 
     @Mock
     private CarService service;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
+
 
     @BeforeEach
     public void setup() {
@@ -83,7 +80,7 @@ public class CarControllerTest {
         CarDTO car = getNewCar();
         this.mockMvc.perform(post("/car")
                 .accept(MediaType.APPLICATION_JSON)
-                .content(toJson(car))
+                .content(objectMapper.writeValueAsString(car))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         verify(service,times(1)).createOrUpdateCar(car);
@@ -95,7 +92,7 @@ public class CarControllerTest {
         CarDTO car = getCarUpdated(1L);
         this.mockMvc.perform(put("/car")
                 .accept(MediaType.APPLICATION_JSON)
-                .content(toJson(car))
+                .content(objectMapper.writeValueAsString(car))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
         verify(service,times(1)).createOrUpdateCar(car);
