@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
@@ -59,6 +60,22 @@ public class CarControllerTest {
         this.mockMvc.perform(get("/cars"))
                 .andExpect(status().isOk())
                 .andDo(print());
+        verify(service,times(1)).findAllCars();
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    void getCarById() throws Exception {
+        this.mockMvc.perform(get("/car/1"))
+                .andExpect(status().isOk());
+        verify(service,times(1)).findCarById(Mockito.any());
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    void deleteCarById() throws Exception {
+        this.mockMvc.perform(delete("/car/1"))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -69,6 +86,8 @@ public class CarControllerTest {
                 .content(toJson(car))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+        verify(service,times(1)).createOrUpdateCar(car);
+        verifyNoMoreInteractions(service);
     }
 
     @Test
@@ -79,19 +98,8 @@ public class CarControllerTest {
                 .content(toJson(car))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-
-    }
-
-    @Test
-    void getCarById() throws Exception {
-        this.mockMvc.perform(get("/car/1"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void deleteCarById() throws Exception {
-        this.mockMvc.perform(delete("/car/1"))
-                .andExpect(status().isOk());
+        verify(service,times(1)).createOrUpdateCar(car);
+        verifyNoMoreInteractions(service);
     }
 
     private CarDTO getNewCar() {
