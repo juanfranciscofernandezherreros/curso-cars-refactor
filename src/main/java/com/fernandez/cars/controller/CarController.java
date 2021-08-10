@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -25,7 +27,7 @@ public class CarController {
     private final CarService carService;
     
     @PostMapping("/car")
-    public ResponseEntity<CarDTO> saveCar(@RequestBody CarDTO carDTO) {
+    public ResponseEntity<CarDTO> saveCar(@Valid @RequestBody CarDTO carDTO) {
         log.info("CarsController[saveCard]");
         return ResponseEntity.ok(carService.createOrUpdateCar(carDTO));
     }

@@ -26,6 +26,7 @@ public class Car {
     @NotNull
     private int totalPlaces;
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
