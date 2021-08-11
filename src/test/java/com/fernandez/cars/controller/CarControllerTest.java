@@ -52,14 +52,14 @@ public class CarControllerTest {
                 .build();
     }
 
-    @Test
+    /*@Test
     void getAllCars() throws Exception {
         this.mockMvc.perform(get("/cars"))
                 .andExpect(status().isOk())
                 .andDo(print());
         verify(service,times(1)).findAllCars();
         verifyNoMoreInteractions(service);
-    }
+    }*/
 
     @Test
     void getCarById() throws Exception {

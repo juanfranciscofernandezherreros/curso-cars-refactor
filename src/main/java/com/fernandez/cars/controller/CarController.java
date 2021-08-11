@@ -4,19 +4,12 @@ import com.fernandez.cars.dto.CarDTO;
 import com.fernandez.cars.service.CarService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RestController
@@ -25,7 +18,7 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
-    
+
     @PostMapping("/car")
     public ResponseEntity<CarDTO> saveCar(@Valid @RequestBody CarDTO carDTO) {
         log.info("CarsController[saveCard]");
@@ -39,9 +32,9 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public ResponseEntity<List<CarDTO>> findAllCars() {
+    public ResponseEntity<Page<CarDTO>> findAllCars(Pageable pageable) {
         log.info("CarsController[findAllCars]");
-        return ResponseEntity.ok(carService.findAllCars());
+        return ResponseEntity.ok(carService.findAllCars(pageable));
     }
 
     @GetMapping("/car/{carId}")

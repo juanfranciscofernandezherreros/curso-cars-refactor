@@ -2,6 +2,7 @@ package com.fernandez.cars.utils;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.data.domain.Page;
 
 import java.util.Collection;
 import java.util.List;
@@ -64,5 +65,20 @@ public class ObjectMapperUtils {
     public static <S, D> D map(final S source, D destination) {
         modelMapper.map(source, destination);
         return destination;
+    }
+
+    /**
+     * Maps the Page {@code entities} of <code>T</code> type which have to be mapped as input to {@code dtoClass} Page
+     * of mapped object with <code>D</code> type.
+     *
+     * @param <D> - type of objects in result page
+     * @param <T> - type of entity in <code>entityPage</code>
+     * @param entities - page of entities that needs to be mapped
+     * @param dtoClass - class of result page element
+     * @return page - mapped page with objects of type <code>D</code>.
+     * @NB <code>dtoClass</code> must has NoArgsConstructor!
+     */
+    public static <D, T> Page<D> mapEntityPageIntoDtoPage(Page<T> entities, Class<D> dtoClass) {
+        return entities.map(objectEntity -> modelMapper.map(objectEntity, dtoClass));
     }
 }

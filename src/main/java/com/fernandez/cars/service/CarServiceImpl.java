@@ -7,6 +7,8 @@ import com.fernandez.cars.utils.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
@@ -21,9 +23,9 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
 
     @Override
-    public List<CarDTO> findAllCars() {
+    public Page<CarDTO> findAllCars(Pageable pageable) {
         log.info("CarServiceImpl[findAllCars]");
-        return ObjectMapperUtils.mapAll(carRepository.findAll(), CarDTO.class);
+        return ObjectMapperUtils.mapEntityPageIntoDtoPage(carRepository.findAll(pageable), CarDTO.class);
     }
 
     @Override

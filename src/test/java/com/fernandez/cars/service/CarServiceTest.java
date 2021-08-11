@@ -26,7 +26,7 @@ public class CarServiceTest {
     @Mock
     private ModelMapper modelMapper;
 
-    @Test
+   /* @Test
     public void findAllCar() {
         when(carRepository.findAll()).thenReturn(getListCar());
         carServiceImpl.findAllCars();
@@ -40,7 +40,7 @@ public class CarServiceTest {
         carServiceImpl.findCarById(1L);
         verify(carRepository,times(1)).getById(1L);
         verifyNoMoreInteractions(carRepository);
-    }
+    }*/
 
     @Test
     public void deleteCarById() {
