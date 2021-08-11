@@ -11,10 +11,6 @@ public class CarDTO {
 
     @NotBlank
     @ValidStr
-    private String name;
-
-    @NotBlank
-    @ValidStr
     private String marca;
 
     @NotBlank

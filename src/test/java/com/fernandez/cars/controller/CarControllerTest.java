@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -52,14 +54,14 @@ public class CarControllerTest {
                 .build();
     }
 
-    /*@Test
+    @Test
     void getAllCars() throws Exception {
         this.mockMvc.perform(get("/cars"))
                 .andExpect(status().isOk())
                 .andDo(print());
-        verify(service,times(1)).findAllCars();
+        verify(service,times(1)).findAllCars(Pageable.ofSize(20));
         verifyNoMoreInteractions(service);
-    }*/
+    }
 
     @Test
     void getCarById() throws Exception {
@@ -101,7 +103,6 @@ public class CarControllerTest {
 
     private CarDTO getNewCar() {
         CarDTO car = new CarDTO();
-        car.setName("Name1");
         car.setTotalPlaces(5);
         car.setModelo("Modelo");
         car.setMarca("Marca");
@@ -111,7 +112,6 @@ public class CarControllerTest {
     private CarDTO getCarUpdated(Long carId) {
         CarDTO car = new CarDTO();
         car.setId(carId);
-        car.setName("Name1");
         car.setTotalPlaces(5);
         car.setModelo("Modelo");
         car.setMarca("Marca");

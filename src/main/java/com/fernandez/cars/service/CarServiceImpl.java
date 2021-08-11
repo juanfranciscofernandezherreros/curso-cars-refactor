@@ -31,11 +31,11 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarDTO findCarById(Long carId) {
         log.info("CarServiceImpl[findCarById]", carId);
-        Optional<Car> car = carRepository.findById(carId);
-        if(!Optional.empty().isPresent()){
+        Optional<Car> optionalCar = carRepository.findById(carId);
+        if(!optionalCar.isPresent()){
             throw new EntityNotFoundException(Car.class, "id", carId.toString());
         }
-        return ObjectMapperUtils.map(car,CarDTO.class);
+        return ObjectMapperUtils.map(optionalCar,CarDTO.class);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class CarServiceImpl implements CarService {
     @Override
     public void deleteCarById(Long carId) {
         log.info("CarServiceImpl[deleteCarById]", carId);
-        Optional<Car> car = carRepository.findById(carId);
-        if(!Optional.empty().isPresent()){
+        Optional<Car> optionalCar = carRepository.findById(carId);
+        if(!optionalCar.isPresent()){
             throw new EntityNotFoundException(Car.class, "id", carId.toString());
         }
         carRepository.deleteById(carId);

@@ -2,6 +2,8 @@ package com.fernandez.cars.controller;
 
 import com.fernandez.cars.dto.CarDTO;
 import com.fernandez.cars.service.CarService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -32,6 +34,16 @@ public class CarController {
     }
 
     @GetMapping("/cars")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Results page you want to retrieve (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page."),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                    value = "Sorting criteria in the format: property(,asc|desc). " +
+                            "Default sort order is ascending. " +
+                            "Multiple sort criteria are supported.")
+    })
     public ResponseEntity<Page<CarDTO>> findAllCars(Pageable pageable) {
         log.info("CarsController[findAllCars]");
         return ResponseEntity.ok(carService.findAllCars(pageable));
